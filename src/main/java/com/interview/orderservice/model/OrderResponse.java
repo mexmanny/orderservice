@@ -1,10 +1,14 @@
 package com.interview.orderservice.model;
 
 
-import java.math.BigDecimal;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+@Document(collection = "orders")
 public class OrderResponse {
-    int orderId;
+    @Id
+    String orderId;
     String status;
     BigDecimal appleCost;
     BigDecimal orangeCost;
@@ -28,11 +32,11 @@ public class OrderResponse {
 
 
 
-    public int getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

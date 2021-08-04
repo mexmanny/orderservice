@@ -11,13 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ControllerTest {
 
     @InjectMocks
-    Controller artistController;
+    Controller orderContoller;
 
     @Mock
     SubmitOrderImpl submitOrder;
@@ -33,7 +34,7 @@ public class ControllerTest {
         orderRequest.setOranges(2);
 
         //When
-        artistController.submitOrder(orderRequest);
+        orderContoller.submitOrder(orderRequest);
 
         //Then
         verify(submitOrder, times(1)).submitOrder(orderRequest);

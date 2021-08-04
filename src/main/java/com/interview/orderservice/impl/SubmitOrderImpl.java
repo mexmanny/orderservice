@@ -2,40 +2,37 @@ package com.interview.orderservice.impl;
 
 import com.interview.orderservice.model.OrderRequest;
 import com.interview.orderservice.model.OrderResponse;
+import com.interview.orderservice.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Random;
 
 @Component
 public class SubmitOrderImpl {
+    @Autowired
+    OrderRepository orderRepository;
     private static final BigDecimal APPLE_COST = BigDecimal.valueOf(.60);
     private static final BigDecimal ORANGE_COST = BigDecimal.valueOf(.25);
 
     public OrderResponse submitOrder(OrderRequest orderRequest) {
 
-        BigDecimal appleCost = calculateAppleCost(orderRequest.getApples(), orderRequest);
-        BigDecimal orangeCost = calculateOrangeCost(orderRequest.getOranges(), orderRequest);
+        BigDecimal appleCost = calculateAppleCost(orderRequest.getApples());
+        BigDecimal orangeCost = calculateOrangeCost(orderRequest.getOranges());
         BigDecimal totalCost = appleCost.add(orangeCost);
-
-
-        Random random = new Random();
-        int number = random.nextInt(Integer.MAX_VALUE);
-
-
         OrderResponse orderResponse = new OrderResponse();
-
-        orderResponse.setOrderId(number);
         orderResponse.setStatus("success");
         orderResponse.setAppleCost(appleCost);
         orderResponse.setOrangeCost(orangeCost);
         orderResponse.setTotalCost(totalCost.setScale(2, RoundingMode.HALF_UP));
+            return orderResponse;
 
-        return orderResponse;
     }
 
-    private BigDecimal calculateAppleCost(int appleCount, OrderRequest orderRequest) {
+
+
+    private BigDecimal calculateAppleCost(int appleCount) {
         BigDecimal appleCost = BigDecimal.valueOf(0.00);
         if (appleCount > 0) {
             BigDecimal dealApples = new BigDecimal(appleCount / 2).multiply(APPLE_COST);
@@ -47,7 +44,7 @@ public class SubmitOrderImpl {
         return appleCost;
     }
 
-    private BigDecimal calculateOrangeCost(int orangeCount, OrderRequest orderRequest) {
+    private BigDecimal calculateOrangeCost(int orangeCount) {
         BigDecimal orangeCost = BigDecimal.valueOf(0.00);
         if (orangeCount > 0) {
 
